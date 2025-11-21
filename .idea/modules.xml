@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hedera_proof.iml" filepath="$PROJECT_DIR$/hedera_proof.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/hedera_proof_android.iml" filepath="$PROJECT_DIR$/android/hedera_proof_android.iml" />
+    </modules>
+  </component>
+</project>
