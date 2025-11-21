@@ -54,7 +54,7 @@ class _ReceiptCardState extends State<ReceiptCard> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save QR Code')),
+        const SnackBar(content: Text(' QR Code save')),
       );
     }
   }

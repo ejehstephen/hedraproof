@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:8080/api';
+  static const String baseUrl = 'https://hedraproof-backend.onrender.com';
 
   static Future<Map<String, dynamic>> mintReceipt({
     required String item,
@@ -26,7 +26,13 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-                return {'success': true, 'qrCodeIpfsCid': responseData['qrCodeIpfsCid'], 'tokenId': responseData['tokenId'], 'serial': responseData['serial'], 'timestamp': responseData['timestamp']};
+        return {
+          'success': true,
+          'qrCodeIpfsCid': responseData['qrCodeIpfsCid'],
+          'tokenId': responseData['tokenId'],
+          'serial': responseData['serial'],
+          'timestamp': responseData['timestamp']
+        };
       } else {
         return {'success': false, 'error': 'Failed to mint receipt'};
       }
@@ -78,7 +84,8 @@ class ApiService {
       final url = '$baseUrl/owner-receipts/$accountId';
       print('ApiService: Fetching owner receipts from: $url');
       final response = await http.get(Uri.parse(url));
-      print('ApiService: Response status code for owner receipts: ${response.statusCode}');
+      print(
+          'ApiService: Response status code for owner receipts: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
