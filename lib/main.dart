@@ -8,12 +8,12 @@ import 'package:hedera_proof/providers/receipt_provider.dart';
 import 'package:hedera_proof/screens/auth_screen.dart';
 import 'package:hedera_proof/screens/dashboard_screen.dart';
 import 'package:hedera_proof/screens/history_screen.dart';
+import 'package:hedera_proof/screens/landing_screen.dart';
 import 'package:hedera_proof/screens/profile_screen.dart';
 import 'package:hedera_proof/screens/verify_screen.dart';
 import 'package:hedera_proof/theme/app_theme.dart';
 import 'package:hedera_proof/widgets/sidebar_nav.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +55,7 @@ class HederaProofApp extends StatelessWidget {
             if (auth.isAuthenticated) {
               return const MainLayout();
             }
-            return const AuthScreen();
+            return const LandingScreen();
           },
         ),
       ),
