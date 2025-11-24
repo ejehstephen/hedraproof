@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'https://hedraproof-backend.onrender.com';
+  static const String baseUrl = 'https://hedraproof-backend.onrender.com/api';
 
   static Future<Map<String, dynamic>> mintReceipt({
     required String item,
