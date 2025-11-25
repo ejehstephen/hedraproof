@@ -15,6 +15,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  Receipt? _selectedReceipt;
   String _selectedStatus = 'All';
   String _searchQuery = '';
   List<Receipt> get _filteredReceipts { // Change type to List<Receipt>
@@ -234,8 +235,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
           rows: _filteredReceipts.map((receipt) {
-            return DataRow(
-              cells: [
+                  final isSelected = _selectedReceipt == receipt;
+                  return DataRow(
+                    selected: isSelected,
+                    onSelectChanged: (selected) {
+                      setState(() {
+                        _selectedReceipt = selected! ? receipt : null;
+                      });
+                    },
+                    cells: [
                 DataCell(Text(receipt.item ?? '',
                     style: const TextStyle(color: Color(0xFFEAEAEA)))),
                 DataCell(Text(receipt.date ?? '',
@@ -270,6 +278,34 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
+    Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$label: ',
+            style: const TextStyle(
+              color: Color(0xFFA0A0B3),
+              fontSize: 14,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(
+                color: Color(0xFFEAEAEA),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // ---------------- RECEIPT PREVIEW ----------------
   Widget _buildReceiptPreview() {
     return Container(
@@ -277,7 +313,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             'Receipt Preview',
             style: TextStyle(
@@ -287,13 +323,38 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ),
           SizedBox(height: 16),
-          Text(
-            'Select a receipt from the table to see its details here.',
-            style: TextStyle(color: Color(0xFFA0A0B3)),
+          if (_selectedReceipt == null)
+            const Text(
+              'Select a receipt from the table to see its details here.',
+              style: TextStyle(color: Color(0xFFA0A0B3)),
+            )
+          else
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailRow('Item', _selectedReceipt!.item ?? 'N/A'),
+                _buildDetailRow('Amount', _selectedReceipt!.amount?.toString() ?? 'N/A'),
+                _buildDetailRow('Date', _selectedReceipt!.date ?? 'N/A'),
+                _buildDetailRow('Token ID', _selectedReceipt!.tokenId ?? 'N/A'),
+                _buildDetailRow('Serial', _selectedReceipt!.serial?.toString() ?? 'N/A'),
+                Row(
+                  children: [
+                    const Text(
+                      'Status: ',
+                      style: TextStyle(
+                        color: Color(0xFFA0A0B3),
+                        fontSize: 14,
+                      ),
+                    ),
+                    StatusChip(status: _selectedReceipt!.status ?? 'N/A'),
+                  ],
+                ),
+              ],
+            ),
+        ]
           ),
-        ],
-      ),
-    );
+        
+      );
   }
 
   // ---------------- UI HELPERS ----------------

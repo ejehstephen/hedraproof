@@ -127,10 +127,10 @@ class _LandingScreenState extends State<LandingScreen>
         children: [
           Row(
             children: [
-              Icon(
-                Icons.verified_user_outlined,
-                color: const Color(0xFF00E7FF),
-                size: 32,
+              Image.asset(
+                'assets/Screenshot 2025-11-25 104353.png', // Fixed path to plural 'assets'
+                width: 63,
+                height: 63, // Removed blue tint to show original logo
               ),
               const SizedBox(width: 12),
               Text(

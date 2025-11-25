@@ -36,3 +36,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/Screenshot 2025-11-25 104353.png
