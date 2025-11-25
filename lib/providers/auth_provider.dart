@@ -37,22 +37,16 @@ class AuthProvider with ChangeNotifier {
     _setLoading(true);
     clearError();
     try {
-      if (kDebugMode) {
-        _user = User(
-          id: 'debug-id',
+      _user = User(
+          id: 'dummy-id',
           name: (email.isNotEmpty ? email.split('@').first : 'Test User'),
           email: email.isNotEmpty ? email : 'test@example.com',
-          walletAddress: '0xDEBUGWALLET',
-          token: 'debug-token',
+          walletAddress: '0xDUMMYWALLET',
+          token: 'dummy-token',
         );
         await _saveUserToPrefs();
         _setLoading(false);
         return;
-      }
-      final responseData = await _apiProvider.login(email, password);
-      _user = User.fromJson(responseData);
-      await _saveUserToPrefs();
-      _setLoading(false);
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));
       _setLoading(false);
@@ -64,23 +58,16 @@ class AuthProvider with ChangeNotifier {
     _setLoading(true);
     clearError();
     try {
-      if (kDebugMode) {
-        _user = User(
-          id: 'debug-id',
+      _user = User(
+          id: 'dummy-id',
           name: name.isNotEmpty ? name : 'Test User',
           email: email.isNotEmpty ? email : 'test@example.com',
-          walletAddress: walletAddress.isNotEmpty ? walletAddress : '0xDEBUGWALLET',
-          token: 'debug-token',
+          walletAddress: walletAddress.isNotEmpty ? walletAddress : '0xDUMMYWALLET',
+          token: 'dummy-token',
         );
         await _saveUserToPrefs();
         _setLoading(false);
         return;
-      }
-      final responseData =
-          await _apiProvider.register(name, email, password, walletAddress);
-      _user = User.fromJson(responseData);
-      await _saveUserToPrefs();
-      _setLoading(false);
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));
       _setLoading(false);
