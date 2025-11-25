@@ -112,29 +112,41 @@ class _ReceiptCardState extends State<ReceiptCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ---------------- QR CODE ----------------
-              Container(
-                width: double.infinity,
-                height: 180,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF7A5CFF).withOpacity(0.2),
-                      const Color(0xFF00E7FF).withOpacity(0.1),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: const Color(0xFF00E7FF).withOpacity(0.3),
-                  ),
-                ),
-                child: Center(
-                  child: widget.qrCodeIpfsCid != null
-                      ? Image.network(
-                          "https://gateway.pinata.cloud/ipfs/${widget.qrCodeIpfsCid}",
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, _, __) => _qrError(),
-                        )
-                      : _qrPlaceholder(),
+              Center(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final qrSize =
+                        constraints.maxWidth * 0.7; // 70% of available width
+                    final maxQrSize = 200.0; // Maximum size for the QR code
+                    final actualQrSize =
+                        qrSize > maxQrSize ? maxQrSize : qrSize;
+
+                    return Container(
+                      width: actualQrSize,
+                      height: actualQrSize,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            const Color(0xFF7A5CFF).withOpacity(0.2),
+                            const Color(0xFF00E7FF).withOpacity(0.1),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: const Color(0xFF00E7FF).withOpacity(0.3),
+                        ),
+                      ),
+                      child: Center(
+                        child: widget.qrCodeIpfsCid != null
+                            ? Image.network(
+                                "https://gateway.pinata.cloud/ipfs/${widget.qrCodeIpfsCid}",
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, _, __) => _qrError(),
+                              )
+                            : _qrPlaceholder(),
+                      ),
+                    );
+                  },
                 ),
               ),
 
@@ -183,8 +195,10 @@ class _ReceiptCardState extends State<ReceiptCard> {
 
               // ---------------- SERIAL OPTIONAL ----------------
               if (widget.serial != null) ...[
-                const Text("Serial Number",
-                    style: TextStyle(color: Color(0xFFA0A0B3), fontSize: 11)),
+                const Text(
+                  "Serial Number",
+                  style: TextStyle(color: Color(0xFFA0A0B3), fontSize: 11),
+                ),
                 Container(
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.only(top: 4),
@@ -192,9 +206,10 @@ class _ReceiptCardState extends State<ReceiptCard> {
                   child: Text(
                     widget.serial.toString(),
                     style: const TextStyle(
-                        color: Color(0xFF00E7FF),
-                        fontFamily: "monospace",
-                        fontSize: 12),
+                      color: Color(0xFF00E7FF),
+                      fontFamily: "monospace",
+                      fontSize: 12,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -212,8 +227,10 @@ class _ReceiptCardState extends State<ReceiptCard> {
               const SizedBox(height: 16),
 
               // ---------------- TOKEN ID ----------------
-              const Text("Token ID",
-                  style: TextStyle(color: Color(0xFFA0A0B3), fontSize: 11)),
+              const Text(
+                "Token ID",
+                style: TextStyle(color: Color(0xFFA0A0B3), fontSize: 11),
+              ),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: _boxStyle(),
@@ -232,8 +249,11 @@ class _ReceiptCardState extends State<ReceiptCard> {
                     ),
                     GestureDetector(
                       onTap: widget.onCopy,
-                      child: const Icon(Icons.content_copy,
-                          size: 16, color: Color(0xFF00E7FF)),
+                      child: const Icon(
+                        Icons.content_copy,
+                        size: 16,
+                        color: Color(0xFF00E7FF),
+                      ),
                     ),
                   ],
                 ),
